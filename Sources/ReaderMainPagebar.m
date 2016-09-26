@@ -394,6 +394,47 @@
 	}
 }
 
+- (void)hidePageNumberView
+{
+  if (self->pageNumberView.hidden == NO) // Only if visible
+  {
+    [UIView animateWithDuration:0.25 delay:0.0
+                        options:UIViewAnimationOptionCurveLinear | UIViewAnimationOptionAllowUserInteraction
+                     animations:^(void)
+     {
+       self->pageNumberView.alpha = 0.0f;
+     }
+                     completion:^(BOOL finished)
+     {
+       self->pageNumberView.hidden = YES;
+     }
+     ];
+  }
+}
+
+- (void)showPageNumberView
+{
+  if (self->pageNumberView.hidden == YES) // Only if hidden
+  {
+    [self updatePagebarViews]; // Update views first
+    
+    [UIView animateWithDuration:0.25 delay:0.0
+                        options:UIViewAnimationOptionCurveLinear | UIViewAnimationOptionAllowUserInteraction
+                     animations:^(void)
+     {
+       self->pageNumberView.hidden = NO;
+       self->pageNumberView.alpha = 1.0f;
+     }
+                     completion:NULL
+     ];
+  }
+}
+
+- (BOOL)pageNumberViewIsHidden
+{
+  return self->pageNumberView.isHidden;
+}
+
 #pragma mark - ReaderTrackControl action methods
 
 - (void)trackTimerFired:(NSTimer *)timer

@@ -47,7 +47,7 @@
 
 @property (nonatomic, weak, readwrite) id <ReaderMainToolbarDelegate> delegate;
 
-- (instancetype)initWithFrame:(CGRect)frame document:(ReaderDocument *)document;
+- (instancetype)initWithFrame:(CGRect)frame document:(ReaderDocument *)document toolbarTitle:(NSString *)toolbarTitle backText:(NSString *)backText;
 
 - (void)setBookmarkState:(BOOL)state;
 

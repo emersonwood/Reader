@@ -45,7 +45,7 @@
 
 @property (nonatomic, weak, readwrite) id <ThumbsViewControllerDelegate> delegate;
 
-- (instancetype)initWithReaderDocument:(ReaderDocument *)object;
+- (instancetype)initWithReaderDocument:(ReaderDocument *)object toolbarTitle:(NSString *)toolbarTitle;
 
 @end
 

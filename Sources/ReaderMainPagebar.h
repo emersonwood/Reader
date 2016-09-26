@@ -50,6 +50,9 @@
 
 - (void)hidePagebar;
 - (void)showPagebar;
+- (void)hidePageNumberView;
+- (void)showPageNumberView;
+- (BOOL)pageNumberViewIsHidden;
 
 @end
 

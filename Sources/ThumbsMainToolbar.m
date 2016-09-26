@@ -77,28 +77,35 @@
 
 		CGFloat leftButtonX = BUTTON_X; // Left-side button start X position
 
-		UIFont *doneButtonFont = [UIFont systemFontOfSize:BUTTON_FONT_SIZE];
-		NSString *doneButtonText = NSLocalizedString(@"Done", @"button");
-		CGSize doneButtonSize = [doneButtonText sizeWithFont:doneButtonFont];
-		CGFloat doneButtonWidth = (doneButtonSize.width + TEXT_BUTTON_PADDING);
-
-		UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
-		doneButton.frame = CGRectMake(leftButtonX, BUTTON_Y, doneButtonWidth, BUTTON_HEIGHT);
-		[doneButton setTitleColor:[UIColor colorWithWhite:0.0f alpha:1.0f] forState:UIControlStateNormal];
-		[doneButton setTitleColor:[UIColor colorWithWhite:1.0f alpha:1.0f] forState:UIControlStateHighlighted];
-		[doneButton setTitle:doneButtonText forState:UIControlStateNormal]; doneButton.titleLabel.font = doneButtonFont;
-		[doneButton addTarget:self action:@selector(doneButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-		[doneButton setBackgroundImage:buttonH forState:UIControlStateHighlighted];
-		[doneButton setBackgroundImage:buttonN forState:UIControlStateNormal];
-		doneButton.autoresizingMask = UIViewAutoresizingNone;
-		//doneButton.backgroundColor = [UIColor grayColor];
-		doneButton.exclusiveTouch = YES;
+    UIFont *doneButtonFont = [UIFont systemFontOfSize:BUTTON_FONT_SIZE];
+    NSString *doneButtonText = NSLocalizedString(@"Reader", @"button");
+    CGSize doneButtonSize = [doneButtonText sizeWithFont:doneButtonFont];
+    CGFloat insetAmount = 2.5;
+    CGFloat imageWidth = 25.0;
+    CGFloat doneButtonWidth = (doneButtonSize.width + insetAmount*2 + imageWidth);
+    
+    UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    doneButton.frame = CGRectMake(leftButtonX, BUTTON_Y, doneButtonWidth, BUTTON_HEIGHT);
+    [doneButton setImage:[UIImage imageNamed:@"Down"] forState:UIControlStateNormal];
+    [doneButton setImage:[UIImage imageNamed:@"DownHighlight"] forState:UIControlStateHighlighted];
+    [doneButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [doneButton setTitle:doneButtonText forState:UIControlStateNormal]; doneButton.titleLabel.font = doneButtonFont;
+    [doneButton addTarget:self action:@selector(doneButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [doneButton setBackgroundImage:buttonH forState:UIControlStateHighlighted];
+    [doneButton setBackgroundImage:buttonN forState:UIControlStateNormal];
+    doneButton.tintColor = [UIColor blackColor];
+    doneButton.imageEdgeInsets = UIEdgeInsetsMake(0, -insetAmount, 0, insetAmount);
+    doneButton.titleEdgeInsets = UIEdgeInsetsMake(0, insetAmount, 0, -insetAmount);
+    doneButton.contentEdgeInsets = UIEdgeInsetsMake(0, insetAmount, 0, insetAmount);
+    doneButton.autoresizingMask = UIViewAutoresizingNone;
+    //doneButton.backgroundColor = [UIColor grayColor];
+    doneButton.exclusiveTouch = YES;
 
 		[self addSubview:doneButton]; //leftButtonX += (doneButtonWidth + buttonSpacing);
 
 		titleX += (doneButtonWidth + buttonSpacing); titleWidth -= (doneButtonWidth + buttonSpacing);
 
-#if (READER_BOOKMARKS == TRUE) // Option
+#if (READER_BOOKMARKS == FALSE) // Option
 
 		CGFloat showControlX = (viewWidth - (SHOW_CONTROL_WIDTH + buttonSpacing));
 
@@ -119,7 +126,7 @@
 
 		[showControl addTarget:self action:@selector(showControlTapped:) forControlEvents:UIControlEventValueChanged];
 
-		[self addSubview:showControl];
+		// [self addSubview:showControl];  // Don't add the segment control
 
 		titleWidth -= (SHOW_CONTROL_WIDTH + buttonSpacing);
 

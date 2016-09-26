@@ -31,6 +31,7 @@
 
 @implementation ReaderMainToolbar
 {
+    UILabel *titleLabel;
 	UIButton *markButton;
 
 	UIImage *markImageN;
@@ -61,10 +62,10 @@
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
-	return [self initWithFrame:frame document:nil];
+  return [self initWithFrame:frame document:nil toolbarTitle:nil backText:nil];
 }
 
-- (instancetype)initWithFrame:(CGRect)frame document:(ReaderDocument *)document
+- (instancetype)initWithFrame:(CGRect)frame document:(ReaderDocument *)document toolbarTitle:(NSString *)toolbarTitle backText:(NSString *)backText
 {
 	assert(document != nil); // Must have a valid ReaderDocument
 
@@ -90,18 +91,25 @@
 #if (READER_STANDALONE == FALSE) // Option
 
 		UIFont *doneButtonFont = [UIFont systemFontOfSize:BUTTON_FONT_SIZE];
-		NSString *doneButtonText = NSLocalizedString(@"Done", @"button");
+		NSString *doneButtonText = NSLocalizedString(backText, @"button");
 		CGSize doneButtonSize = [doneButtonText sizeWithFont:doneButtonFont];
-		CGFloat doneButtonWidth = (doneButtonSize.width + TEXT_BUTTON_PADDING);
+    CGFloat insetAmount = 2.5;
+    CGFloat imageWidth = 25.0;
+		CGFloat doneButtonWidth = (doneButtonSize.width + insetAmount*2 + imageWidth);
 
 		UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
 		doneButton.frame = CGRectMake(leftButtonX, BUTTON_Y, doneButtonWidth, BUTTON_HEIGHT);
-		[doneButton setTitleColor:[UIColor colorWithWhite:0.0f alpha:1.0f] forState:UIControlStateNormal];
-		[doneButton setTitleColor:[UIColor colorWithWhite:1.0f alpha:1.0f] forState:UIControlStateHighlighted];
+    [doneButton setImage:[UIImage imageNamed:@"Back"] forState:UIControlStateNormal];
+    [doneButton setImage:[UIImage imageNamed:@"BackHighlight"] forState:UIControlStateHighlighted];
+		[doneButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
 		[doneButton setTitle:doneButtonText forState:UIControlStateNormal]; doneButton.titleLabel.font = doneButtonFont;
 		[doneButton addTarget:self action:@selector(doneButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
 		[doneButton setBackgroundImage:buttonH forState:UIControlStateHighlighted];
 		[doneButton setBackgroundImage:buttonN forState:UIControlStateNormal];
+    doneButton.tintColor = [UIColor blackColor];
+    doneButton.imageEdgeInsets = UIEdgeInsetsMake(0, -insetAmount, 0, insetAmount);
+    doneButton.titleEdgeInsets = UIEdgeInsetsMake(0, insetAmount, 0, -insetAmount);
+    doneButton.contentEdgeInsets = UIEdgeInsetsMake(0, insetAmount, 0, insetAmount);
 		doneButton.autoresizingMask = UIViewAutoresizingNone;
 		//doneButton.backgroundColor = [UIColor grayColor];
 		doneButton.exclusiveTouch = YES;
@@ -111,17 +119,23 @@
 		titleX += (doneButtonWidth + buttonSpacing); titleWidth -= (doneButtonWidth + buttonSpacing);
 
 #endif // end of READER_STANDALONE Option
-
+        
+        CGFloat rightButtonX = viewWidth; // Right-side buttons start X position
+        
 #if (READER_ENABLE_THUMBS == TRUE) // Option
-
+        
+        rightButtonX -= (iconButtonWidth + buttonSpacing);
+        
 		UIButton *thumbsButton = [UIButton buttonWithType:UIButtonTypeCustom];
-		thumbsButton.frame = CGRectMake(leftButtonX, BUTTON_Y, iconButtonWidth, BUTTON_HEIGHT);
+		thumbsButton.frame = CGRectMake(rightButtonX, BUTTON_Y, iconButtonWidth, BUTTON_HEIGHT);
 		[thumbsButton setImage:[UIImage imageNamed:@"Reader-Thumbs"] forState:UIControlStateNormal];
+    [thumbsButton setImage:[UIImage imageNamed:@"Reader-ThumbsHighlight"] forState:UIControlStateHighlighted];
 		[thumbsButton addTarget:self action:@selector(thumbsButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
 		[thumbsButton setBackgroundImage:buttonH forState:UIControlStateHighlighted];
 		[thumbsButton setBackgroundImage:buttonN forState:UIControlStateNormal];
-		thumbsButton.autoresizingMask = UIViewAutoresizingNone;
+		thumbsButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
 		//thumbsButton.backgroundColor = [UIColor grayColor];
+    thumbsButton.tintColor = [UIColor blackColor];
 		thumbsButton.exclusiveTouch = YES;
 
 		[self addSubview:thumbsButton]; //leftButtonX += (iconButtonWidth + buttonSpacing);
@@ -130,9 +144,7 @@
 
 #endif // end of READER_ENABLE_THUMBS Option
 
-		CGFloat rightButtonX = viewWidth; // Right-side buttons start X position
-
-#if (READER_BOOKMARKS == TRUE) // Option
+#if (READER_BOOKMARKS == FALSE) // Option
 
 		rightButtonX -= (iconButtonWidth + buttonSpacing); // Position
 
@@ -221,9 +233,9 @@
 
 		if (largeDevice == YES) // Show document filename in toolbar
 		{
-			CGRect titleRect = CGRectMake(titleX, BUTTON_Y, titleWidth, TITLE_HEIGHT);
+			CGRect titleRect = CGRectMake((viewWidth-titleWidth)/2, BUTTON_Y, titleWidth, TITLE_HEIGHT);
 
-			UILabel *titleLabel = [[UILabel alloc] initWithFrame:titleRect];
+			titleLabel = [[UILabel alloc] initWithFrame:titleRect];
 
 			titleLabel.textAlignment = NSTextAlignmentCenter;
 			titleLabel.font = [UIFont systemFontOfSize:TITLE_FONT_SIZE];
@@ -233,7 +245,7 @@
 			titleLabel.backgroundColor = [UIColor clearColor];
 			titleLabel.adjustsFontSizeToFitWidth = YES;
 			titleLabel.minimumScaleFactor = 0.75f;
-			titleLabel.text = [document.fileName stringByDeletingPathExtension];
+            titleLabel.text = toolbarTitle;//[document.fileName stringByDeletingPathExtension];
 #if (READER_FLAT_UI == FALSE) // Option
 			titleLabel.shadowColor = [UIColor colorWithWhite:0.75f alpha:1.0f];
 			titleLabel.shadowOffset = CGSizeMake(0.0f, 1.0f);
