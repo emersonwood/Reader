@@ -105,7 +105,7 @@
 
 		titleX += (doneButtonWidth + buttonSpacing); titleWidth -= (doneButtonWidth + buttonSpacing);
 
-#if (READER_BOOKMARKS == FALSE) // Option
+#if (READER_BOOKMARKS == TRUE) // Option
 
 		CGFloat showControlX = (viewWidth - (SHOW_CONTROL_WIDTH + buttonSpacing));
 
@@ -147,7 +147,7 @@
 			titleLabel.adjustsFontSizeToFitWidth = YES;
 			titleLabel.minimumScaleFactor = 0.75f;
 			titleLabel.text = title;
-#if (READER_FLAT_UI == FALSE) // Option
+#if (READER_FLAT_UI == TRUE) // Option
 			titleLabel.shadowColor = [UIColor colorWithWhite:0.65f alpha:1.0f];
 			titleLabel.shadowOffset = CGSizeMake(0.0f, 1.0f);
 #endif // end of READER_FLAT_UI Option

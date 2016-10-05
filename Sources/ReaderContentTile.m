@@ -35,7 +35,7 @@
 
 + (CFTimeInterval)fadeDuration
 {
-	return 0.001; // iOS bug (flickering tiles) workaround
+	return 0.25; // iOS bug (flickering tiles) workaround
 }
 
 #pragma mark - ReaderContentTile instance methods

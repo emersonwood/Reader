@@ -88,7 +88,7 @@
 
 		CGFloat leftButtonX = BUTTON_X; // Left-side button start X position
 
-#if (READER_STANDALONE == FALSE) // Option
+#if (READER_STANDALONE == TRUE) // Option
 
 		UIFont *doneButtonFont = [UIFont systemFontOfSize:BUTTON_FONT_SIZE];
 		NSString *doneButtonText = NSLocalizedString(backText, @"button");
@@ -144,7 +144,7 @@
 
 #endif // end of READER_ENABLE_THUMBS Option
 
-#if (READER_BOOKMARKS == FALSE) // Option
+#if (READER_BOOKMARKS == TRUE) // Option
 
 		rightButtonX -= (iconButtonWidth + buttonSpacing); // Position
 

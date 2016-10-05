@@ -164,7 +164,7 @@ static inline CGFloat zoomScaleThatFitsWidth(CGSize target, CGSize source)
       theContainerView.autoresizingMask = UIViewAutoresizingNone;
       theContainerView.backgroundColor = [UIColor whiteColor];
       
-#if (READER_SHOW_SHADOWS == FALSE) // Option
+#if (READER_SHOW_SHADOWS == TRUE) // Option
       
       theContainerView.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
       theContainerView.layer.shadowRadius = 4.0f; theContainerView.layer.shadowOpacity = 1.0f;
