@@ -88,7 +88,7 @@
 
 		CGFloat leftButtonX = BUTTON_X; // Left-side button start X position
 
-#if (READER_STANDALONE == TRUE) // Option
+#if (READER_STANDALONE == FALSE) // Option
 
 		UIFont *doneButtonFont = [UIFont systemFontOfSize:BUTTON_FONT_SIZE];
 		NSString *doneButtonText = NSLocalizedString(backText, @"button");
