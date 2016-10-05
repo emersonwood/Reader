@@ -1,6 +1,6 @@
 //
 //	ReaderAppDelegate.m
-//	Reader v2.8.7
+//	Reader v2.8.7.1
 //
 //	Created by Julius Oklamcak on 2011-07-01.
 //	Copyright © 2011-2016 Julius Oklamcak. All rights reserved.
